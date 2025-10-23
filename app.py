@@ -220,7 +220,7 @@ if modo == "Texto directo":
         placeholder="Escribe o pega aquí el texto que deseas analizar..."
     )
     
-    if st.button("🔍 Analizar Sentimiento"):
+    if st.button("Analizar Sentimiento"):
         if texto.strip():
             with st.spinner("Analizando emociones..."):
                 resultados = procesar_texto(texto)
