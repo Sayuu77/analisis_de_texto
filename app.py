@@ -444,7 +444,7 @@ with st.expander("Información sobre el Análisis", expanded=False):
     st.markdown(f"""
     <div class="info-box">
         <h3 style="color: {COLOR_TEXTO}; margin-top: 0;">Sobre el análisis de texto</h3>
-        
+    """, unsafe_allow_html=True)
         <h4 style="color: {COLOR_TEXTO};">Escalas de Medición</h4>
         <ul>
             <li><strong>Sentimiento</strong>: Varía de -1 (muy negativo) a 1 (muy positivo)</li>
@@ -454,7 +454,7 @@ with st.expander("Información sobre el Análisis", expanded=False):
         <h4 style="color: {COLOR_TEXTO};">Tecnologías Utilizadas</h4>
         <p>Streamlit • TextBlob • Google Translate • Pandas</p>
     </div>
-    """, unsafe_allow_html=True)
+  
 
 # Pie de página
 st.markdown("---")
