@@ -8,97 +8,108 @@ import json
 
 # Configuración de la página
 st.set_page_config(
-    page_title="Analizador de Sentimientos Avanzado",
+    page_title="Analizador de Sentimientos",
     page_icon="📊",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
+# Color principal único
+COLOR_PRINCIPAL = "#2563eb"  # Azul moderno
+COLOR_SECUNDARIO = "#1e40af"  # Azul más oscuro
+COLOR_FONDO = "#f8fafc"      # Gris muy claro
+COLOR_TEXTO = "#1e293b"      # Gris oscuro para texto
+
 # Aplicar estilos CSS personalizados
-st.markdown("""
+st.markdown(f"""
 <style>
-    .main-header {
-        font-size: 3rem;
-        color: #1f77b4;
+    .main-header {{
+        font-size: 2.5rem;
+        color: {COLOR_PRINCIPAL};
         text-align: center;
-        margin-bottom: 2rem;
+        margin-bottom: 1.5rem;
         font-weight: 700;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-    }
-    .sub-header {
-        font-size: 1.5rem;
-        color: #2e86ab;
+    }}
+    .sub-header {{
+        font-size: 1.3rem;
+        color: {COLOR_SECUNDARIO};
         margin-bottom: 1rem;
         font-weight: 600;
-    }
-    .stButton button {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }}
+    .stButton button {{
+        background-color: {COLOR_PRINCIPAL};
         color: white;
         border: none;
-        padding: 0.5rem 1.5rem;
-        border-radius: 10px;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-    .stButton button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-        background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
-    }
-    .metric-card {
-        background: rgba(255, 255, 255, 0.8);
-        border-radius: 10px;
-        padding: 1.5rem;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        border-left: 4px solid #667eea;
+        padding: 0.6rem 2rem;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        width: 100%;
+    }}
+    .stButton button:hover {{
+        background-color: {COLOR_SECUNDARIO};
+        transform: translateY(-1px);
+    }}
+    .metric-card {{
+        background: white;
+        border-radius: 8px;
+        padding: 1.2rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-left: 4px solid {COLOR_PRINCIPAL};
         margin-bottom: 1rem;
-    }
-    .sentiment-positive {
-        background: linear-gradient(135deg, #a8e6cf 0%, #56ab2f 100%);
+    }}
+    .sentiment-container {{
+        background: white;
+        border-radius: 8px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }}
+    .phrase-card {{
+        background: white;
+        border-radius: 8px;
+        padding: 1rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        margin-bottom: 0.8rem;
+        border-left: 3px solid {COLOR_PRINCIPAL};
+    }}
+    .sidebar-header {{
+        background-color: {COLOR_PRINCIPAL};
         color: white;
         padding: 1rem;
-        border-radius: 10px;
+        border-radius: 8px;
+        margin-bottom: 1.5rem;
         text-align: center;
-    }
-    .sentiment-negative {
-        background: linear-gradient(135deg, #ff9a9e 0%, #f54d4d 100%);
-        color: white;
+    }}
+    .stApp {{
+        background-color: {COLOR_FONDO};
+    }}
+    .text-input {{
+        background: white;
+        border-radius: 8px;
         padding: 1rem;
-        border-radius: 10px;
-        text-align: center;
-    }
-    .sentiment-neutral {
-        background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
-        color: white;
-        padding: 1rem;
-        border-radius: 10px;
-        text-align: center;
-    }
-</style>
-""", unsafe_allow_html=True)
-
-# Fondo con gradiente
-st.markdown("""
-<style>
-    .stApp {
-        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-    }
+    }}
+    .info-box {{
+        background: white;
+        border-radius: 8px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }}
 </style>
 """, unsafe_allow_html=True)
 
 # Título y descripción
-st.markdown('<h1 class="main-header">🧠 Analizador de Sentimientos Avanzado</h1>', unsafe_allow_html=True)
-st.markdown("""
-<div style="text-align: center; margin-bottom: 2rem;">
-    <p style="font-size: 1.2rem; color: #555;">
-    Esta aplicación utiliza análisis de texto avanzado para determinar el sentimiento, subjetividad 
-    y características lingüísticas de cualquier texto que ingreses.
+st.markdown('<h1 class="main-header">📊 Analizador de Sentimientos</h1>', unsafe_allow_html=True)
+st.markdown(f"""
+<div style="text-align: center; margin-bottom: 2rem; color: {COLOR_TEXTO};">
+    <p style="font-size: 1.1rem;">
+    Analiza el sentimiento, subjetividad y características lingüísticas de cualquier texto
     </p>
 </div>
 """, unsafe_allow_html=True)
 
-# URLs de animaciones Lottie para diferentes sentimientos
+# URLs de animaciones Lottie
 LOTTIE_URLS = {
     "positive": "https://assets1.lottiefiles.com/packages/lf20_ukgjv2gq.json",
     "negative": "https://assets1.lottiefiles.com/packages/lf20_7sk0n0gg.json", 
@@ -115,30 +126,29 @@ def load_lottie_url(url):
     except:
         return None
 
-# Barra lateral mejorada
+# Barra lateral
 with st.sidebar:
     st.markdown("""
-    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
-                padding: 1.5rem; border-radius: 10px; color: white; margin-bottom: 2rem;">
-        <h2 style="margin: 0; text-align: center;">⚙️ Opciones</h2>
+    <div class="sidebar-header">
+        <h2 style="margin: 0; font-size: 1.3rem;">⚙️ Configuración</h2>
     </div>
     """, unsafe_allow_html=True)
     
     modo = st.selectbox(
-        "Selecciona el modo de entrada:",
+        "Modo de entrada:",
         ["Texto directo", "Archivo de texto"],
         key="modo_selector"
     )
     
     st.markdown("---")
     
-    st.markdown("""
-    <div style="background: rgba(255, 255, 255, 0.9); padding: 1rem; border-radius: 10px;">
-        <h4 style="color: #333; margin-top: 0;">📈 Escalas de Análisis</h4>
-        <p style="color: #666; font-size: 0.9rem; margin-bottom: 0.5rem;">
+    st.markdown(f"""
+    <div class="info-box">
+        <h4 style="color: {COLOR_TEXTO}; margin-top: 0;">📈 Escalas de Análisis</h4>
+        <p style="color: {COLOR_TEXTO}; font-size: 0.9rem; margin-bottom: 0.5rem;">
         <strong>Sentimiento:</strong> -1 (Negativo) a 1 (Positivo)
         </p>
-        <p style="color: #666; font-size: 0.9rem; margin-bottom: 0;">
+        <p style="color: {COLOR_TEXTO}; font-size: 0.9rem; margin-bottom: 0;">
         <strong>Subjetividad:</strong> 0 (Objetivo) a 1 (Subjetivo)
         </p>
     </div>
@@ -146,7 +156,6 @@ with st.sidebar:
 
 # Función para contar palabras sin depender de NLTK
 def contar_palabras(texto):
-    # Lista básica de palabras vacías en español e inglés
     stop_words = set([
         "a", "al", "algo", "algunas", "algunos", "ante", "antes", "como", "con", "contra",
         "cual", "cuando", "de", "del", "desde", "donde", "durante", "e", "el", "ella",
@@ -184,19 +193,14 @@ def contar_palabras(texto):
         "your", "yours", "yourself", "yourselves"
     ])
     
-    # Limpiar y tokenizar texto
     palabras = re.findall(r'\b\w+\b', texto.lower())
-    
-    # Filtrar palabras vacías y contar frecuencias
     palabras_filtradas = [palabra for palabra in palabras 
                          if palabra not in stop_words and len(palabra) > 2]
     
-    # Contar frecuencias
     contador = {}
     for palabra in palabras_filtradas:
         contador[palabra] = contador.get(palabra, 0) + 1
     
-    # Ordenar por frecuencia
     contador_ordenado = dict(sorted(contador.items(), key=lambda x: x[1], reverse=True))
     
     return contador_ordenado, palabras_filtradas
@@ -204,37 +208,25 @@ def contar_palabras(texto):
 # Inicializar el traductor
 translator = Translator()
 
-# Función para traducir texto del español al inglés
 def traducir_texto(texto):
     try:
         traduccion = translator.translate(texto, src='es', dest='en')
         return traduccion.text
     except Exception as e:
         st.error(f"Error al traducir: {e}")
-        return texto  # Devolver el texto original si falla la traducción
+        return texto
 
-# Función para procesar el texto con TextBlob (versión con traducción)
 def procesar_texto(texto):
-    # Guardar el texto original
     texto_original = texto
-    
-    # Traducir el texto al inglés para mejor análisis
     texto_ingles = traducir_texto(texto)
     
-    # Analizar el texto traducido con TextBlob
     blob = TextBlob(texto_ingles)
-    
-    # Análisis de sentimiento (esto no requiere corpus adicionales)
     sentimiento = blob.sentiment.polarity
     subjetividad = blob.sentiment.subjectivity
     
-    # Extraer frases de manera simplificada (del texto original)
     frases_originales = [frase.strip() for frase in re.split(r'[.!?]+', texto_original) if frase.strip()]
-    
-    # Extraer frases del texto traducido
     frases_traducidas = [frase.strip() for frase in re.split(r'[.!?]+', texto_ingles) if frase.strip()]
     
-    # Combinar frases originales y traducidas
     frases_combinadas = []
     for i in range(min(len(frases_originales), len(frases_traducidas))):
         frases_combinadas.append({
@@ -242,7 +234,6 @@ def procesar_texto(texto):
             "traducido": frases_traducidas[i]
         })
     
-    # Contar palabras con nuestra función simplificada (en el texto traducido)
     contador_palabras, palabras = contar_palabras(texto_ingles)
     
     return {
@@ -255,140 +246,101 @@ def procesar_texto(texto):
         "texto_traducido": texto_ingles
     }
 
-# Función para mostrar animación Lottie según el sentimiento
-def mostrar_animacion_sentimiento(sentimiento):
+def mostrar_resultado_sentimiento(sentimiento):
     if sentimiento > 0.05:
-        lottie_json = load_lottie_url(LOTTIE_URLS["positive"])
-        sentimiento_clase = "sentiment-positive"
         etiqueta = "POSITIVO"
         emoji = "😊"
+        color = COLOR_PRINCIPAL
     elif sentimiento < -0.05:
-        lottie_json = load_lottie_url(LOTTIE_URLS["negative"])
-        sentimiento_clase = "sentiment-negative"
         etiqueta = "NEGATIVO"
         emoji = "😟"
+        color = COLOR_PRINCIPAL
     else:
-        lottie_json = load_lottie_url(LOTTIE_URLS["neutral"])
-        sentimiento_clase = "sentiment-neutral"
         etiqueta = "NEUTRAL"
         emoji = "😐"
+        color = COLOR_PRINCIPAL
     
-    # Mostrar etiqueta de sentimiento
     st.markdown(f"""
-    <div class="{sentimiento_clase}">
-        <h2 style="margin: 0; font-size: 1.8rem;">{emoji} Sentimiento: {etiqueta}</h2>
-        <p style="margin: 0; font-size: 1.2rem;">Valor: {sentimiento:.3f}</p>
+    <div class="sentiment-container">
+        <h2 style="color: {color}; margin: 0; font-size: 1.8rem;">{emoji} {etiqueta}</h2>
+        <p style="color: {COLOR_TEXTO}; font-size: 1.1rem; margin: 0.5rem 0 0 0;">
+        Valor: {sentimiento:.3f}
+        </p>
     </div>
     """, unsafe_allow_html=True)
-    
-    # Mostrar animación Lottie si está disponible
-    if lottie_json:
-        # En Streamlit, podemos usar componentes para Lottie, pero aquí usamos un placeholder
-        # En una implementación real, usaríamos: from streamlit_lottie import st_lottie
-        st.markdown(f"""
-        <div style="text-align: center; margin: 1rem 0;">
-            <p>🎭 Animación de {etiqueta.lower()} cargada</p>
-        </div>
-        """, unsafe_allow_html=True)
-    else:
-        st.markdown(f"""
-        <div style="text-align: center; margin: 1rem 0;">
-            <p>⚠️ No se pudo cargar la animación</p>
-        </div>
-        """, unsafe_allow_html=True)
 
-# Función para crear visualizaciones usando componentes nativos de Streamlit
 def crear_visualizaciones(resultados):
-    # Mostrar animación de sentimiento
-    mostrar_animacion_sentimiento(resultados["sentimiento"])
+    # Resultado del sentimiento
+    mostrar_resultado_sentimiento(resultados["sentimiento"])
     
     # Métricas principales
     col1, col2, col3 = st.columns(3)
     
     with col1:
-        st.markdown("""
+        st.markdown(f"""
         <div class="metric-card">
-            <h3 style="margin-top: 0; color: #333;">📊 Sentimiento</h3>
-            <p style="font-size: 1.5rem; font-weight: bold; color: #667eea; margin-bottom: 0;">
-            {:.3f}
+            <h3 style="margin-top: 0; color: {COLOR_TEXTO}; font-size: 1rem;">Sentimiento</h3>
+            <p style="font-size: 1.4rem; font-weight: bold; color: {COLOR_PRINCIPAL}; margin-bottom: 0;">
+            {resultados['sentimiento']:.3f}
             </p>
         </div>
-        """.format(resultados["sentimiento"]), unsafe_allow_html=True)
+        """, unsafe_allow_html=True)
     
     with col2:
-        st.markdown("""
+        st.markdown(f"""
         <div class="metric-card">
-            <h3 style="margin-top: 0; color: #333;">🎯 Subjetividad</h3>
-            <p style="font-size: 1.5rem; font-weight: bold; color: #667eea; margin-bottom: 0;">
-            {:.3f}
+            <h3 style="margin-top: 0; color: {COLOR_TEXTO}; font-size: 1rem;">Subjetividad</h3>
+            <p style="font-size: 1.4rem; font-weight: bold; color: {COLOR_PRINCIPAL}; margin-bottom: 0;">
+            {resultados['subjetividad']:.3f}
             </p>
         </div>
-        """.format(resultados["subjetividad"]), unsafe_allow_html=True)
+        """, unsafe_allow_html=True)
     
     with col3:
         num_palabras = len(resultados["palabras"])
-        st.markdown("""
+        st.markdown(f"""
         <div class="metric-card">
-            <h3 style="margin-top: 0; color: #333;">📝 Palabras Útiles</h3>
-            <p style="font-size: 1.5rem; font-weight: bold; color: #667eea; margin-bottom: 0;">
-            {}
+            <h3 style="margin-top: 0; color: {COLOR_TEXTO}; font-size: 1rem;">Palabras Útiles</h3>
+            <p style="font-size: 1.4rem; font-weight: bold; color: {COLOR_PRINCIPAL}; margin-bottom: 0;">
+            {num_palabras}
             </p>
         </div>
-        """.format(num_palabras), unsafe_allow_html=True)
+        """, unsafe_allow_html=True)
     
-    # Visualización de sentimiento y subjetividad con barras de progreso
-    st.markdown('<div class="sub-header">📈 Análisis Detallado</div>', unsafe_allow_html=True)
+    # Barras de progreso
+    st.markdown(f'<div class="sub-header">Análisis Detallado</div>', unsafe_allow_html=True)
     
     col1, col2 = st.columns(2)
     
     with col1:
-        st.markdown("""
-        <div style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-            <h4 style="margin-top: 0; color: #333;">Sentimiento</h4>
+        st.markdown(f"""
+        <div style="background: white; padding: 1.2rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            <h4 style="margin-top: 0; color: {COLOR_TEXTO};">Sentimiento</h4>
         </div>
         """, unsafe_allow_html=True)
         
-        # Normalizar valores para mostrarlos en barras de progreso
-        # Sentimiento va de -1 a 1, lo normalizamos a 0-1 para la barra
         sentimiento_norm = (resultados["sentimiento"] + 1) / 2
-        
         st.progress(sentimiento_norm)
         
-        if resultados["sentimiento"] > 0.05:
-            st.success(f"📈 Predominantemente Positivo ({resultados['sentimiento']:.3f})")
-        elif resultados["sentimiento"] < -0.05:
-            st.error(f"📉 Predominantemente Negativo ({resultados['sentimiento']:.3f})")
-        else:
-            st.info(f"📊 Mayormente Neutral ({resultados['sentimiento']:.3f})")
-    
     with col2:
-        st.markdown("""
-        <div style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-            <h4 style="margin-top: 0; color: #333;">Subjetividad</h4>
+        st.markdown(f"""
+        <div style="background: white; padding: 1.2rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            <h4 style="margin-top: 0; color: {COLOR_TEXTO};">Subjetividad</h4>
         </div>
         """, unsafe_allow_html=True)
         
-        # Subjetividad ya está en el rango 0-1
         st.progress(resultados["subjetividad"])
-        
-        if resultados["subjetividad"] > 0.5:
-            st.warning(f"💭 Texto Subjetivo ({resultados['subjetividad']:.3f})")
-        else:
-            st.info(f"📋 Texto Objetivo ({resultados['subjetividad']:.3f})")
     
-    # Palabras más frecuentes usando chart de Streamlit
-    st.markdown('<div class="sub-header">🔤 Palabras Más Frecuentes</div>', unsafe_allow_html=True)
+    # Palabras frecuentes
+    st.markdown(f'<div class="sub-header">Palabras Más Frecuentes</div>', unsafe_allow_html=True)
     
     if resultados["contador_palabras"]:
         palabras_top = dict(list(resultados["contador_palabras"].items())[:10])
-        
-        # Crear un dataframe para mostrar las palabras más frecuentes
         df_palabras = pd.DataFrame({
             'Palabra': list(palabras_top.keys()),
             'Frecuencia': list(palabras_top.values())
         })
         
-        # Mostrar tabla y gráfico
         col1, col2 = st.columns([1, 2])
         
         with col1:
@@ -396,26 +348,24 @@ def crear_visualizaciones(resultados):
         
         with col2:
             st.bar_chart(df_palabras.set_index('Palabra'))
-    else:
-        st.info("No se encontraron palabras significativas para analizar.")
     
-    # Mostrar texto traducido
-    st.markdown('<div class="sub-header">🌐 Traducción</div>', unsafe_allow_html=True)
+    # Traducción
+    st.markdown(f'<div class="sub-header">Traducción</div>', unsafe_allow_html=True)
     
     with st.expander("Ver traducción completa", expanded=False):
         col1, col2 = st.columns(2)
         with col1:
             st.markdown("**Texto Original (Español):**")
-            st.text_area("", resultados["texto_original"], height=150, key="original_text")
+            st.text_area("", resultados["texto_original"], height=120, key="original_text")
         with col2:
             st.markdown("**Texto Traducido (Inglés):**")
-            st.text_area("", resultados["texto_traducido"], height=150, key="translated_text")
+            st.text_area("", resultados["texto_traducido"], height=120, key="translated_text")
     
     # Análisis de frases
-    st.markdown('<div class="sub-header">📖 Análisis de Frases</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="sub-header">Análisis de Frases</div>', unsafe_allow_html=True)
     
     if resultados["frases"]:
-        for i, frase_dict in enumerate(resultados["frases"][:10], 1):
+        for i, frase_dict in enumerate(resultados["frases"][:8], 1):
             frase_original = frase_dict["original"]
             frase_traducida = frase_dict["traducido"]
             
@@ -425,55 +375,54 @@ def crear_visualizaciones(resultados):
                 
                 if sentimiento > 0.05:
                     emoji = "😊"
-                    color = "#a8e6cf"
                 elif sentimiento < -0.05:
                     emoji = "😟"
-                    color = "#ff9a9e"
                 else:
                     emoji = "😐"
-                    color = "#a1c4fd"
                 
                 st.markdown(f"""
-                <div style="background: {color}; padding: 1rem; border-radius: 10px; margin-bottom: 1rem;">
-                    <p style="margin: 0; font-weight: bold;">{i}. {emoji} Sentimiento: {sentimiento:.3f}</p>
-                    <p style="margin: 0.5rem 0 0 0;"><strong>Original:</strong> "{frase_original}"</p>
-                    <p style="margin: 0;"><strong>Traducción:</strong> "{frase_traducida}"</p>
+                <div class="phrase-card">
+                    <p style="margin: 0; font-weight: bold; color: {COLOR_PRINCIPAL};">
+                    {i}. {emoji} Sentimiento: {sentimiento:.3f}
+                    </p>
+                    <p style="margin: 0.3rem 0 0 0; color: {COLOR_TEXTO};">
+                    <strong>Original:</strong> {frase_original}
+                    </p>
                 </div>
                 """, unsafe_allow_html=True)
             except:
                 st.markdown(f"""
-                <div style="background: #f0f0f0; padding: 1rem; border-radius: 10px; margin-bottom: 1rem;">
-                    <p style="margin: 0; font-weight: bold;">{i}. Análisis no disponible</p>
-                    <p style="margin: 0.5rem 0 0 0;"><strong>Original:</strong> "{frase_original}"</p>
-                    <p style="margin: 0;"><strong>Traducción:</strong> "{frase_traducida}"</p>
+                <div class="phrase-card">
+                    <p style="margin: 0; font-weight: bold; color: {COLOR_PRINCIPAL};">
+                    {i}. Análisis no disponible
+                    </p>
+                    <p style="margin: 0.3rem 0 0 0; color: {COLOR_TEXTO};">
+                    <strong>Original:</strong> {frase_original}
+                    </p>
                 </div>
                 """, unsafe_allow_html=True)
-    else:
-        st.info("No se detectaron frases para analizar.")
 
-# Lógica principal según el modo seleccionado
+# Lógica principal
 if modo == "Texto directo":
-    st.markdown('<div class="sub-header">✍️ Ingresa tu Texto para Analizar</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="sub-header">Ingresa tu Texto</div>', unsafe_allow_html=True)
     
     texto = st.text_area(
         "", 
-        height=200, 
+        height=150, 
         placeholder="Escribe o pega aquí el texto que deseas analizar...",
         key="text_input"
     )
     
-    col1, col2, col3 = st.columns([2, 1, 2])
-    with col2:
-        if st.button("🔍 Analizar Texto", use_container_width=True):
-            if texto.strip():
-                with st.spinner("Analizando texto..."):
-                    resultados = procesar_texto(texto)
-                    crear_visualizaciones(resultados)
-            else:
-                st.warning("Por favor, ingresa algún texto para analizar.")
+    if st.button("Analizar Texto", key="analyze_btn"):
+        if texto.strip():
+            with st.spinner("Analizando texto..."):
+                resultados = procesar_texto(texto)
+                crear_visualizaciones(resultados)
+        else:
+            st.warning("Por favor, ingresa algún texto para analizar.")
 
 elif modo == "Archivo de texto":
-    st.markdown('<div class="sub-header">📁 Carga un Archivo de Texto</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="sub-header">Carga un Archivo</div>', unsafe_allow_html=True)
     
     archivo = st.file_uploader("", type=["txt", "csv", "md"], key="file_uploader")
     
@@ -481,25 +430,36 @@ elif modo == "Archivo de texto":
         try:
             contenido = archivo.getvalue().decode("utf-8")
             with st.expander("Vista previa del contenido", expanded=False):
-                st.text(contenido[:1000] + ("..." if len(contenido) > 1000 else ""))
+                st.text(contenido[:800] + ("..." if len(contenido) > 800 else ""))
             
-            col1, col2, col3 = st.columns([2, 1, 2])
-            with col2:
-                if st.button("🔍 Analizar Archivo", use_container_width=True):
-                    with st.spinner("Analizando archivo..."):
-                        resultados = procesar_texto(contenido)
-                        crear_visualizaciones(resultados)
+            if st.button("Analizar Archivo", key="analyze_file_btn"):
+                with st.spinner("Analizando archivo..."):
+                    resultados = procesar_texto(contenido)
+                    crear_visualizaciones(resultados)
         except Exception as e:
             st.error(f"Error al procesar el archivo: {e}")
 
 # Información adicional
-with st.expander("📚 Información sobre el Análisis", expanded=False):
-    st.markdown("""
+with st.expander("Información sobre el Análisis", expanded=False):
+    st.markdown(f"""
+    <div class="info-box">
+        <h3 style="color: {COLOR_TEXTO}; margin-top: 0;">Sobre el análisis de texto</h3>
+        
+        <h4 style="color: {COLOR_TEXTO};">Escalas de Medición</h4>
+        <ul>
+            <li><strong>Sentimiento</strong>: Varía de -1 (muy negativo) a 1 (muy positivo)</li>
+            <li><strong>Subjetividad</strong>: Varía de 0 (muy objetivo) a 1 (muy subjetivo)</li>
+        </ul>
+        
+        <h4 style="color: {COLOR_TEXTO};">Tecnologías Utilizadas</h4>
+        <p>Streamlit • TextBlob • Google Translate • Pandas</p>
+    </div>
+    """, unsafe_allow_html=True)
+
 # Pie de página
 st.markdown("---")
-st.markdown("""
-<div style="text-align: center; color: #666; padding: 1rem;">
-    <p style="margin: 0;">Desarrollado con ❤️ usando Streamlit y TextBlob | 
-    <a href="#" style="color: #667eea; text-decoration: none;">Analizador de Sentimientos Avanzado</a></p>
+st.markdown(f"""
+<div style="text-align: center; color: {COLOR_TEXTO}; padding: 1rem; font-size: 0.9rem;">
+    <p style="margin: 0;">Desarrollado con Streamlit y TextBlob</p>
 </div>
 """, unsafe_allow_html=True)
