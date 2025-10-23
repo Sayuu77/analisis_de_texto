@@ -102,7 +102,7 @@ with st.sidebar:
     )
     
     st.markdown("---")
-    st.markdown("### 📊 Escalas")
+    st.markdown("###Escalas")
     st.markdown("**Sentimiento:** -1 (Negativo) a 1 (Positivo)")
     st.markdown("**Subjetividad:** 0 (Objetivo) a 1 (Subjetivo)")
 
@@ -215,7 +215,7 @@ def mostrar_sentimiento(sentimiento):
 # Entrada principal
 if modo == "Texto directo":
     texto = st.text_area(
-        "📝 Ingresa tu texto:",
+        "Ingresa tu texto:",
         height=150,
         placeholder="Escribe o pega aquí el texto que deseas analizar..."
     )
@@ -304,7 +304,7 @@ elif modo == "Archivo de texto":
         try:
             contenido = archivo.getvalue().decode("utf-8")
             
-            if st.button("🔍 Analizar Archivo"):
+            if st.button("Analizar Archivo"):
                 with st.spinner("Analizando archivo..."):
                     resultados = procesar_texto(contenido)
                     
