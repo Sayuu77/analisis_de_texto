@@ -102,7 +102,7 @@ with st.sidebar:
     )
     
     st.markdown("---")
-    st.markdown("###Escalas")
+    st.markdown("Escalas")
     st.markdown("**Sentimiento:** -1 (Negativo) a 1 (Positivo)")
     st.markdown("**Subjetividad:** 0 (Objetivo) a 1 (Subjetivo)")
 
