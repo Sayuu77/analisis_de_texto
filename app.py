@@ -495,34 +495,6 @@ elif modo == "Archivo de texto":
 # Información adicional
 with st.expander("📚 Información sobre el Análisis", expanded=False):
     st.markdown("""
-    <div style="background: white; padding: 1.5rem; border-radius: 10px;">
-        <h3 style="color: #333;">Sobre el análisis de texto</h3>
-        
-        <h4 style="color: #555;">Escalas de Medición</h4>
-        <ul>
-            <li><strong>Sentimiento</strong>: Varía de -1 (muy negativo) a 1 (muy positivo)</li>
-            <li><strong>Subjetividad</strong>: Varía de 0 (muy objetivo) a 1 (muy subjetivo)</li>
-        </ul>
-        
-        <h4 style="color: #555;">Proceso de Análisis</h4>
-        <ol>
-            <li>Traducción del texto al inglés para mejor precisión</li>
-            <li>Análisis de sentimiento y subjetividad con TextBlob</li>
-            <li>Extracción de palabras clave eliminando palabras vacías</li>
-            <li>Análisis individual de frases detectadas</li>
-        </ol>
-        
-        <h4 style="color: #555;">Tecnologías Utilizadas</h4>
-        <p>Esta aplicación utiliza las siguientes bibliotecas de Python:</p>
-        <ul>
-            <li><code>streamlit</code> - Interfaz de usuario</li>
-            <li><code>textblob</code> - Análisis de texto y sentimientos</li>
-            <li><code>googletrans</code> - Traducción de texto</li>
-            <li><code>pandas</code> - Procesamiento de datos</li>
-        </ul>
-    </div>
-    """, unsafe_allow_html=True)
-
 # Pie de página
 st.markdown("---")
 st.markdown("""
